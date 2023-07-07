@@ -3,7 +3,7 @@ import request from "Utils/request";
 
 
 const useStore = create((set, get) => ({
-  defaultProject: null,
+  defaultProject: 0,
   getDefaultProjectLoading: false,
   getDefaultProjectFetch: async () => {
     set({ getDefaultProjectLoading: true })
