@@ -6,9 +6,9 @@ function index() {
   const navigate = useNavigate()
   const routeLocation = useLocation();
 
-  useEffect(() => {
-    navigate("category", { replace: true })
-  }, [routeLocation.pathname])
+  // useEffect(() => {
+  //   navigate("category", { replace: true })
+  // }, [routeLocation.pathname])
 
   return <Outlet />
 }

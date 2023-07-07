@@ -57,6 +57,7 @@ function BaseLayout() {
   }, [])
 
   useEffect(() => {
+    console.log(routeLocation.pathname)
     if (routeLocation.pathname === "/") {
       // 查找router中是否存在 default 的配置，如果存在，则走default 配置的
       const routeObj = getConfigRoutes(Config)

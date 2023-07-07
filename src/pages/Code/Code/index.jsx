@@ -9,6 +9,7 @@ import BatchUpdateModal from './BatchUpdateModal';
 
 import useStore from '@models/public';
 import useCodeStore from "@models/Code/code";
+import useCategoriesStore from "@models/Code/category";
 
 // export const useShallowEqualSelector = (selector) => useSelector(selector, shallowEqual);
 
@@ -19,7 +20,20 @@ const Code = () => {
   const { defaultProject, getDefaultProjectLoading, getDefaultProjectFetch } = useStore()
   const {
     codes,
+    fields,
+    attrs,
+    getCodeAll,
+    getCodeAttr,
+    putCodeDelete,
+    putCodeBinsert,    
+    codesLoading,
+    codeTotal,
+    attrLoading,
   } = useCodeStore();
+  const {
+    getCategoriesFetch,
+    categories,
+  } = useCategoriesStore();
   // const { defaultProject, codes, codeTotal, codesLoading, categories, fields, attrs, attrLoading } = useShallowEqualSelector((state) => ({
   //   defaultProject: state.public.defaultProject,
   //   codes: state.manageCode.codes,
@@ -71,16 +85,18 @@ const Code = () => {
 
     // 未获得默认项目id，页面初始化
     if (defaultProjectRef.current === 0) {
-      getDefaultProjectFetch().then(() => {
-
+      getDefaultProjectFetch().then((res) => {
+        getCategoriesFetch({projectId: res})
+        getCodeAll(getPayload());
       })
-      dispatch({ type: 'public/getApmPublicProject' }).then(() => {
-        // 请求code分类数据，用于构造表格头筛选框和模态框选择器
-        dispatch({ type: 'manageCodeCategory/getCategories', payload: { projectId: defaultProjectRef.current } });
-        dispatch({ type: 'manageCode/getCodeAll', payload: getPayload() });
-      });
+      // dispatch({ type: 'public/getApmPublicProject' }).then(() => {
+      //   // 请求code分类数据，用于构造表格头筛选框和模态框选择器
+      //   dispatch({ type: 'manageCodeCategory/getCategories', payload: { projectId: defaultProjectRef.current } });
+      //   dispatch({ type: 'manageCode/getCodeAll', payload: getPayload() });
+      // });
     } else {
-      dispatch({ type: 'manageCode/getCodeAll', payload: getPayload() });
+      getCodeAll(getPayload())
+      // dispatch({ type: 'manageCode/getCodeAll', payload: getPayload() });
     }
   };
 
@@ -112,13 +128,11 @@ const Code = () => {
   const deleteCode = (rows) => {
     const ids = rows.map(elem => elem.id);
     const codes = rows.map(elem => elem.code);
-    dispatch({
-      type: 'manageCode/putCodeDelete', payload: {
-        action: 'delete',
-        data: {},
-        id: [...ids],
-        projectId: defaultProjectRef.current,
-      }
+    putCodeDelete({
+      action: 'delete',
+      data: {},
+      id: [...ids],
+      projectId: defaultProjectRef.current,
     }).then(() => {
       // 如果新删除的错误码与【数据分析/实时监控】页面在客户端本地缓存的错误码列表存在交集，需要同时更新缓存，
       // 从而确保该页面的查询不出现脏数据
@@ -153,9 +167,12 @@ const Code = () => {
       id: [0],
       projectId: defaultProjectRef.current,
     };
-    dispatch({ type: 'manageCode/putCodeBinsert', payload }).then(() => {
-      searchTable(searchVal);
-    });
+    // dispatch({ type: 'manageCode/putCodeBinsert', payload }).then(() => {
+    //   searchTable(searchVal);
+    // });
+    putCodeBinsert(payload).then(() => {
+      searchTable(searchVal)
+    })
   };
 
   // 批量添加模态框关闭回调
@@ -166,7 +183,8 @@ const Code = () => {
   // 打开批量编辑模态框
   const onBatchUpdate = (ids) => {
     setSelectedIds(ids);
-    dispatch({ type: 'manageCode/getCodeAttr', payload: { projectId: defaultProjectRef.current } });
+    getCodeAttr({ projectId: defaultProjectRef.current })
+    // dispatch({ type: 'manageCode/getCodeAttr', payload: { projectId: defaultProjectRef.current } });
     setIsBatchUpdateModalOpen(true);
   };
 
