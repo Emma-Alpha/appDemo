@@ -1,0 +1,40 @@
+.content {
+  box-sizing: border-box;
+  display: flex;
+  -moz-flex-direction: column;
+  -o-flex-direction: column;
+  flex-direction: column;
+  height: 100%;
+
+  .header {
+    margin: 0;
+    height: auto;
+    line-height: inherit;
+    min-height: inherit;
+    position: relative;
+    border-bottom: 1px solid #fff;
+    padding: 10px 20px;
+    color: #000;
+    background: #fff;
+
+    .h2 {
+      display: inline-block;
+      vertical-align: middle;
+      font-size: 16px;
+      font-weight: 700;
+      margin-right: 20px;
+      max-width: 70%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      height: 30px;
+      line-height: 30px;
+    }
+  }
+
+  .body {
+    padding: 20px;
+    position: relative;
+    flex: 1 1 auto;
+  }
+}
