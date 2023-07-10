@@ -5,15 +5,17 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Router from "./router";
 
+const PackAgeConfig = require("../package.json");
+
 export const provider = reactBridge({
-  el: '#demo',
+  el: `#${PackAgeConfig.appConfig.name}`,
   rootComponent: Router,
   errorBoundary: (e) => <ErrorBoundary />,
 });
 
 
 if (!window.__GARFISH__) {
-  const container = document.getElementById('demo');
+  const container = document.getElementById(PackAgeConfig.appConfig.name);
   const root = createRoot(container);
   root.render(
     <Router
