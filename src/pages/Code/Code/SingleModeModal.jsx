@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 // import { useDispatch, shallowEqual, useSelector } from 'dva';
-import { Popconfirm, Button, Form, Modal, Tooltip, Space, Input, Select } from 'antd';
+import { Popconfirm, Button, Form, Modal, Tooltip, Space, Input, Select, InputNumber } from 'antd';
 import { PlusOutlined, EditOutlined, DeleteOutlined, CaretUpOutlined, CaretDownOutlined } from '@ant-design/icons';
 
 const FormItem = Form.Item;
@@ -68,8 +68,11 @@ const SingleModeModal = ({ isModalOpen, record, postCode, onModalCancel, categor
         onCancel={onCancel}
       >
         <Form form={form} {...layout}>
-          <FormItem name='code' label='错误码' rules={[{ required: true, message: '请输入code' }]}>
-            <Input placeholder='请输入错误码'></Input>
+          <FormItem name='code' label='错误码' rules={[
+            { required: true, message: '请输入code' },
+            { pattern: new RegExp(/^[0-9]\d*$/, "g"), message: "请输入正确的数字！" }
+          ]}>
+            <InputNumber type placeholder='请输入错误码' style={{width: "100%"}}></InputNumber>
           </FormItem>
           <FormItem name='categoryId' label='错误码分类' rules={[{ required: true, message: '请选择错误码分类' }]}>
             <Select placeholder='请选择错误码分类'>

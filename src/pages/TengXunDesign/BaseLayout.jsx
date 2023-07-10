@@ -4,6 +4,8 @@ import Config from "@src/Config";
 import _ from "lodash-es";
 import { getConfigRoutes } from "@src/router/routesConfig.ts";
 
+import styles from "./BaseLayout.less";
+
 function BaseLayout() {
 
   const { routes } = Config
@@ -62,10 +64,10 @@ function BaseLayout() {
       // 查找router中是否存在 default 的配置，如果存在，则走default 配置的
       const routeObj = getConfigRoutes(Config)
       Object.keys(routeObj).forEach(key => {
-        let v  =routeObj[key]
-        if(v?.default) {
+        let v = routeObj[key]
+        if (v?.default) {
           navigate(v?.absPath ?? "")
-          return 
+          return
         }
       })
     }
