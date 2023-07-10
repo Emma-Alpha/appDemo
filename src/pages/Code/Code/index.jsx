@@ -8,7 +8,7 @@ import BatchAddModal from './BatchAddModal';
 import BatchUpdateModal from './BatchUpdateModal';
 
 import useStore from '@models/public';
-import useCodeStore from "@models/Code/code";
+import useCodeStore from "@models/Code/codeTs";
 import useCategoriesStore from "@models/Code/category";
 
 // export const useShallowEqualSelector = (selector) => useSelector(selector, shallowEqual);
@@ -16,7 +16,7 @@ import useCategoriesStore from "@models/Code/category";
 const Code = () => {
   // const dispatch = useDispatch();
   const [form] = Form.useForm();
-  
+
   const { defaultProject, getDefaultProjectLoading, getDefaultProjectFetch } = useStore()
   const {
     codes,
@@ -24,8 +24,10 @@ const Code = () => {
     attrs,
     getCodeAll,
     getCodeAttr,
+    postCodeFetch,
+    putCodeBedit,
     putCodeDelete,
-    putCodeBinsert,    
+    putCodeBinsert,
     codesLoading,
     codeTotal,
     attrLoading,
@@ -86,7 +88,7 @@ const Code = () => {
     // 未获得默认项目id，页面初始化
     if (defaultProjectRef.current === 0) {
       getDefaultProjectFetch().then((res) => {
-        getCategoriesFetch({projectId: res})
+        getCategoriesFetch({ projectId: res })
         getCodeAll(getPayload());
       })
       // dispatch({ type: 'public/getApmPublicProject' }).then(() => {
@@ -108,14 +110,20 @@ const Code = () => {
 
   // 添加/编辑code
   const postCode = (values) => {
-    dispatch({
-      type: 'manageCode/postCode', payload: {
-        ...values,
-        projectId: defaultProjectRef.current,
-      }
+    postCodeFetch({
+      ...values,
+      projectId: defaultProjectRef.current,
     }).then(() => {
       searchTable(searchVal);
     });
+    // dispatch({
+    //   type: 'manageCode/postCode', payload: {
+    //     ...values,
+    //     projectId: defaultProjectRef.current,
+    //   }
+    // }).then(() => {
+    //   searchTable(searchVal);
+    // });
   };
 
   // 添加/编辑code模态框关闭回调
@@ -132,7 +140,7 @@ const Code = () => {
       action: 'delete',
       data: {},
       id: [...ids],
-      projectId: defaultProjectRef.current,
+      projectId: defaultProjectRef.current
     }).then(() => {
       // 如果新删除的错误码与【数据分析/实时监控】页面在客户端本地缓存的错误码列表存在交集，需要同时更新缓存，
       // 从而确保该页面的查询不出现脏数据
@@ -196,13 +204,14 @@ const Code = () => {
       id: [...selectedIds],
       projectId: defaultProjectRef.current,
     };
-    dispatch({ type: 'manageCode/putCodeBedit', payload }).then(() => {
+    putCodeBedit(payload).then(() => {
       // 清空多选
       if (tableRef) {
         tableRef.current();
       }
       searchTable(searchVal);
     });
+    // dispatch({ type: 'manageCode/putCodeBedit', payload })
   };
 
   // 批量编辑模态框关闭回调
@@ -229,7 +238,7 @@ const Code = () => {
   };
 
   return (
-    <div style={{ backgroundColor: '#fff', padding: '20px 20px' }}>
+    <>
       <CodeTable
         dataSource={codes}
         loading={codesLoading}
@@ -264,7 +273,7 @@ const Code = () => {
         loading={attrLoading}
         tableRef={tableRef}
       />
-    </div>
+    </>
   );
 };
 

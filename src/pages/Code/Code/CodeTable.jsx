@@ -120,7 +120,7 @@ const CodeTable = ({
   // 多选配置
   const rowSelection = {
 
-    action: (selectedRows) => {
+    action: ({ selectedRows }) => {
       const selectedIds = selectedRows.map(o => o.id);
       return (
         <div>
@@ -149,7 +149,7 @@ const CodeTable = ({
       columns={columns}
       dataSource={dataSource}
       loading={loading}
-      sticky={{ offsetHeader: -24, offsetScroll: 0 }}
+      sticky={{ offsetHeader: 0, offsetScroll: 0 }}
       className={styles.paginationSticky}
       rowSelection={{ ...rowSelection }}
       onClearSelectedRows={tableRef}

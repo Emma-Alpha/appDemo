@@ -1,13 +1,33 @@
 import { create } from 'zustand';
-import {
+const {
   apiGetCodeAll,
   apiPostCode,
   apiPutCode,
   apiGetCodeAttr,
-} from './codeApi';
+} = require("./codeApi.jsx");
 
 
-const useStore = create((set, get) => ({
+interface GetAllParams  {
+  projectId: number
+}
+
+interface BearState {
+  codes: any[],
+  codeTotal: number,
+  fields: any[],
+  attrs: any[],
+  codesLoading: boolean,
+  attrLoading: boolean,
+
+  getCodeAll: (params: GetAllParams) => void,
+  getCodeAttr: (params: any) => void,
+  postCodeFetch: (params: any) => void,
+  putCodeBinsert: (params: any) => void,
+  putCodeBedit: (params: any) => void,
+  putCodeDelete: (params: any) => void,
+}
+
+const useStore = create<BearState>()((set) => ({
   codes: [],
   codeTotal: 0,
   fields: [],
@@ -45,14 +65,14 @@ const useStore = create((set, get) => ({
 
   postCodeFetch: async (params) => {
     try {
-      const { data } = await apiPostCode(params);
+      await apiPostCode(params);
     } catch (error) {
       console.error(error)
     }
   },
 
   putCodeBinsert: async (params) => {
-    const { data } = await apiPutCode(params);
+    await apiPutCode(params);
   },
 
   putCodeBedit: async (params) => {
@@ -62,7 +82,7 @@ const useStore = create((set, get) => ({
   putCodeDelete: async (params) => {
     set({ codesLoading: true })
     try {
-      const { data } = await apiPutCode(params)
+      await apiPutCode(params)
       set({ codesLoading: false })
     } catch (error) {
       set({ codesLoading: false })
