@@ -5,6 +5,7 @@ import _ from "lodash-es";
 import { getConfigRoutes } from "@src/router/routesConfig.ts";
 
 import styles from "./BaseLayout.less";
+const PackAgeConfig = require("../../../package.json");
 
 function BaseLayout() {
 
@@ -52,7 +53,7 @@ function BaseLayout() {
 
     if (window.Garfish) {
       window?.Garfish.channel.emit("router", {
-        name: "manage",
+        name: PackAgeConfig.appConfig.name,
         routes: moduleRouteConfig,
       })
     }
