@@ -4,14 +4,35 @@
     "esModuleInterop": true,
     "module": "commonjs",
     "moduleResolution": "node",
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
+    "noImplicitAny": false,
     "noUnusedParameters": true,
     "sourceMap": true,
     "strict": true,
     "skipLibCheck": true,
     "target": "es5",
     "jsx": "react",
-    "lib": ["es5", "dom", "dom.iterable", "esnext"]
+    "lib": ["es5", "dom", "dom.iterable", "esnext"],
+    "paths": {
+      "@/*": [
+        "./src/pages/*"
+      ],
+      "@src/*": [
+        "./src/*"
+      ],
+      "@shared/*": [
+        "./shared/*"
+      ],
+      "@config/*": [
+        "./config/*"
+      ],
+      "@store/*": [
+        "./store/*"
+      ],
+      "@utils/*": [
+        "./utils/*"
+      ],
+    },
   },
   "exclude": [
     "**/node_modules",
@@ -23,8 +44,5 @@
     "**/templates",
     "ui"
   ],
-  "include": [
-    "./src/**/*",
-    "./react-app-env.d.ts"
-  ],
+  "include": ["./src/**/*", "./react-app-env.d.ts", "config/router"]
 }
