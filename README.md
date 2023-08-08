@@ -262,16 +262,16 @@ if (window.__GARFISH__) {
 
 #### 8. prettier 不生效的原因是？
 第一步，打开vscode 安装 Prettier
-![Alt text](9ea30416-711a-4a3f-86ce-9dc6039ecdee.jpeg)
+![Alt text](/doc/9ea30416-711a-4a3f-86ce-9dc6039ecdee.jpeg)
 第二步，找到vscode 的设置， 输入use Editor Conf 找到下图的配置，将勾勾去掉
-![Alt text](358b67c9-0793-4bfc-932d-682db246a8e3.jpeg)
+![Alt text](/doc/358b67c9-0793-4bfc-932d-682db246a8e3.jpeg)
 
-![Alt text](dbbcf84a-015f-42c5-ac34-8c9ff25252bc.jpeg)
+![Alt text](/doc/dbbcf84a-015f-42c5-ac34-8c9ff25252bc.jpeg)
 第三步，右键某一个文件，找到使用...格式化文档
-![Alt text](be3b2e17-f33f-4470-b9f1-0650f5275d66.jpeg)
+![Alt text](/doc/be3b2e17-f33f-4470-b9f1-0650f5275d66.jpeg)
 第四步，选择默认配置
-![Alt text](825fd068-a8c5-4aec-b1ea-02a92dbf95fc.jpeg)
+![Alt text](/doc/825fd068-a8c5-4aec-b1ea-02a92dbf95fc.jpeg)
 第五步， 选择则Prettier - code formatter作为默认值
-![Alt text](b4670c51-2d98-4ff4-97c2-c2432b49f820.jpeg)
+![Alt text](/doc/b4670c51-2d98-4ff4-97c2-c2432b49f820.jpeg)
 
 请一一对应上述步骤是否做好，如以上途径都无法解决，请联系梁平波~(目前只针对Vscode)

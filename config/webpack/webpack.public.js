@@ -1,5 +1,4 @@
 const path = require("./paths.js")
-const babelOptions = require("./babel.config.js")
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const WebpackBar = require('webpackbar');
 const {
