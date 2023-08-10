@@ -9,9 +9,11 @@ import { openUpdateVersionNotify } from '@src/utils/updateVersion';
 const appInfoConfig = require('../package.json');
 import './index.css';
 
+const AppName = appInfoConfig.appsConfig.name;
+
 // 配置antd 静态方法使用的
 ConfigProvider.config({
-  prefixCls: appInfoConfig.appsConfig.name,
+  prefixCls: AppName,
 });
 
 const res = getRoutes({
@@ -37,7 +39,7 @@ const context = {
   reactRouter5Compat: false,
   routeComponents: rootComponents,
   loadingComponent: () => <Loading name={'基座'} />,
-  rootElement: document.getElementById(appInfoConfig.appsConfig.name)!,
+  rootElement: document.getElementById(AppName)!,
   basename: '/',
   pluginManager: [],
   history: history,
@@ -45,7 +47,7 @@ const context = {
 
 if (window.__GARFISH__) {
   window.Garfish.channel.emit('router', {
-    name: 'demo',
+    name: AppName,
     routes: routes,
   });
 }
