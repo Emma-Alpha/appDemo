@@ -79,7 +79,7 @@ module.exports = {
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       title: appInfoConfig.appsConfig.cname,
-      mountRoot: "root",
+      mountRoot: appInfoConfig.appsConfig.name,
       template: path.resolveApp("./src/index.html"),
       filename: "index.html",
       inject: 'body', // 所有javascript 资源都是加载到body底部

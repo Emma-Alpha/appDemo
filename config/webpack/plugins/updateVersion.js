@@ -42,8 +42,8 @@ class UpdateVersionWebpackPlugin {
 
           // 遍历所有资源，
           // 生成 update_version 文件的内容
-          const content = 
-`{
+          const content =
+            `{
   "version": "${Date.now()}.0.0"
 }`;
 

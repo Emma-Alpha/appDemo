@@ -3,10 +3,10 @@ import { getRoutes, renderClient, getRouteComponents } from '@config/router';
 import { routes } from '@src/routes';
 import useGlobalStore from '@store/global';
 import history from '@config/history';
-// import Garfish from 'garfish';
 import Loading from './loading';
 import { ConfigProvider } from 'antd';
 import { openUpdateVersionNotify } from '@src/utils/updateVersion';
+const appInfoConfig = require('../package.json');
 import './index.css';
 
 // 配置antd 静态方法使用的
@@ -37,7 +37,7 @@ const context = {
   reactRouter5Compat: false,
   routeComponents: rootComponents,
   loadingComponent: () => <Loading name={'基座'} />,
-
+  rootElement: document.getElementById(appInfoConfig.appsConfig.name)!,
   basename: '/',
   pluginManager: [],
   history: history,
@@ -50,7 +50,7 @@ if (window.__GARFISH__) {
   });
 }
 
-openUpdateVersionNotify();
+openUpdateVersionNotify(3000);
 
 // 子应用接入
 export const provider = () => {
