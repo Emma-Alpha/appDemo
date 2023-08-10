@@ -11,7 +11,7 @@ import './index.css';
 
 // 配置antd 静态方法使用的
 ConfigProvider.config({
-  prefixCls: 'rta',
+  prefixCls: appInfoConfig.appsConfig.name,
 });
 
 const res = getRoutes({
