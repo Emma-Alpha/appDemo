@@ -31,22 +31,20 @@ module.exports = merge(common, {
     filename: "[name].bundle.js",
     clean: false,
     path: path.resolveApp("dist"),
-    publicPath: `http://${appInfo.appsConfig.host}:${appInfo.appsConfig.port}/`,
+    publicPath: `http://${appInfo.appConfig.host}:${appInfo.appConfig.port}/`,
   },
-  target: "web",
-  stats: 'errors-only',
+  stats: 'errors-only', // 只在发生错误时输出
   devServer: {
-    setupExitSignals: true, //允许关闭开发服务器并退出进程SIGINT并SIGTERM发出信号。
     headers: {
       'Access-Control-Allow-Origin': '*',
     },
-    host: appInfo.appsConfig.host,
-    port: appInfo.appsConfig.port,
+    host: appInfo.appConfig.host,
+    port: appInfo.appConfig.port,
     compress: true, // 开启服务器gzip压缩
     open: ["/"],
     historyApiFallback: true, // 提供页面来替代404响应
     hot: true, // 构建失败的情况下启动热模块替代而不是刷新页面,
-    allowedHosts: 'all',
+    allowedHosts: 'all',  // 允许访问开发服务器的服务列入白名单
     onBeforeSetupMiddleware: (devServer) => {
       if (!devServer) {
         throw new Error('webpack-dev-server is not defined');
@@ -83,32 +81,6 @@ module.exports = merge(common, {
   },
   module: {
     rules: [
-      {
-        test: /\.less$/,
-        include: [/[\\/]node_modules[\\/].*antd/],
-        use: [
-          {
-            loader: "style-loader"
-          },
-          {
-            loader: "css-loader",
-            options: {
-              sourceMap: true,
-            }
-          },
-          {
-            loader: "less-loader",
-            options: {
-              sourceMap: true,
-              lessOptions: {
-                javascriptEnabled: true,
-                math: 'always',
-                // modifyVars: mapToken
-              }
-            }
-          }
-        ]
-      },
       // less 开启CSS Modules 
       {
         test: /\.less$/,

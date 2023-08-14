@@ -6,7 +6,7 @@ interface IVersionRecord {
   stack: string[]
 }
 // 对应的数组的key
-const RECORD_KEY = `${appInfoConfig.appsConfig['name']}_version_record`
+const RECORD_KEY = `${appInfoConfig.appConfig['name']}_version_record`
 
 // 当前版本号
 let CUR_VERSION = ''

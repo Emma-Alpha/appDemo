@@ -1,10 +1,5 @@
 import { History } from 'history';
-import React, {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 // compatible with < react@18 in @umijs/preset-umi/src/features/react
 import ReactDOM from 'react-dom/client';
 import { matchRoutes, Router, useRoutes } from 'react-router-dom';
@@ -12,8 +7,8 @@ import { AppContext, useAppData } from './appContext';
 import { createClientRoutes } from './routes';
 import { ILoaderData, IRouteComponents, IRoutesById } from './types';
 import { isAbsolute, join } from 'path';
-import { winPath } from "./getRoutes";
-import lodash from "lodash-es";
+import { getRoutes, winPath } from './getRoutes';
+import lodash from 'lodash-es';
 
 let root: ReactDOM.Root | null = null;
 
@@ -27,14 +22,7 @@ export function __getRoot() {
  * @param props
  * @returns
  */
-function BrowserRoutes(props: {
-  routes: any;
-  clientRoutes: any;
-  pluginManager: any;
-  history: History;
-  basename: string;
-  children: any;
-}) {
+function BrowserRoutes(props: { routes: any; clientRoutes: any; pluginManager: any; history: History; basename: string; children: any }) {
   const { history } = props;
   const [state, setState] = React.useState({
     action: history.action,
@@ -64,11 +52,7 @@ function BrowserRoutes(props: {
     });
   }, [history, props.routes, props.clientRoutes]);
   return (
-    <Router
-      navigator={history}
-      location={state.location}
-      basename={props.basename}
-    >
+    <Router navigator={history} location={state.location} basename={props.basename}>
       {props.children}
     </Router>
   );
@@ -171,94 +155,76 @@ function getProjectRootCwd(cwd: string) {
  * @param {string} [cwd] current root path
  * @return {*}  {string}
  */
-export function componentToChunkName(
-  component: string,
-  cwd: string = '/',
-): string {
+export function componentToChunkName(component: string, cwd: string = '/'): string {
   cwd = winPath(cwd);
   return typeof component === 'string'
     ? component
-      .replace(
-        new RegExp(
-          `^(${
-          // match app cwd first
-          lodash.escapeRegExp(lastSlash(cwd))
-          }|${
-          // then try to match monorepo root cwd, because route files may be in root node_modules (such as dumi)
-          lodash.escapeRegExp(lastSlash(getProjectRootCwd(cwd)))
-          })`,
-        ),
-        '',
-      )
-      .replace(/^.(\/|\\)/, '')
-      .replace(/(\/|\\)/g, '__')
-      // 转换 tnpm node_modules 目录中的 @ 符号，它在 URL 上会被转义，可能导致 CDN 托管失败
-      .replace(/@/g, '_')
-      .replace(/\.jsx?$/, '')
-      .replace(/\.tsx?$/, '')
-      .replace(/\.vue?$/, '')
-      .replace(/^src__/, '')
-      .replace(/\.\.__/g, '')
-      // 约定式路由的 [ 会导致 webpack 的 code splitting 失败
-      // ref: https://github.com/umijs/umi/issues/4155
-      .replace(/[\[\]]/g, '')
-      // node_modules 文件名在 gh-pages 是默认忽略的，会导致访问 404
-      .replace(/^node_modules__/, 'nm__')
-      // 插件层的文件也可能是路由组件，比如 plugin-layout 插件
-      .replace(/^.umi-production__/, 't__')
-      // 避免产出隐藏文件（比如 .dumi/theme）下的路由组件
-      .replace(/^\./, '')
-      .replace(/^pages__/, 'p__')
+        .replace(
+          new RegExp(
+            `^(${
+              // match app cwd first
+              lodash.escapeRegExp(lastSlash(cwd))
+            }|${
+              // then try to match monorepo root cwd, because route files may be in root node_modules (such as dumi)
+              lodash.escapeRegExp(lastSlash(getProjectRootCwd(cwd)))
+            })`,
+          ),
+          '',
+        )
+        .replace(/^.(\/|\\)/, '')
+        .replace(/(\/|\\)/g, '__')
+        // 转换 tnpm node_modules 目录中的 @ 符号，它在 URL 上会被转义，可能导致 CDN 托管失败
+        .replace(/@/g, '_')
+        .replace(/\.jsx?$/, '')
+        .replace(/\.tsx?$/, '')
+        .replace(/\.vue?$/, '')
+        .replace(/^src__/, '')
+        .replace(/\.\.__/g, '')
+        // 约定式路由的 [ 会导致 webpack 的 code splitting 失败
+        // ref: https://github.com/umijs/umi/issues/4155
+        .replace(/[\[\]]/g, '')
+        // node_modules 文件名在 gh-pages 是默认忽略的，会导致访问 404
+        .replace(/^node_modules__/, 'nm__')
+        // 插件层的文件也可能是路由组件，比如 plugin-layout 插件
+        .replace(/^.umi-production__/, 't__')
+        // 避免产出隐藏文件（比如 .dumi/theme）下的路由组件
+        .replace(/^\./, '')
+        .replace(/^pages__/, 'p__')
     : '';
 }
 
-
-export function getRouteComponents(opts: {
-  routes: Record<string, any>;
-  prefix: string;
-  api: any;
-}) {
-  const imports: any = {}
-  Object.keys(opts.routes)
-    .map((key) => {
-      const useSuspense = true;
-      const route = opts.routes[key];
-      if (!route.file) {
-        const Empty = "EmptyRoute"
-        // 测试环境还不支持 import ，所以用 require
-        if (process.env.NODE_ENV === 'test') {
-          imports[key] = require(`${Empty}`).default
-          return
-        }
-        useSuspense ? imports[key] = React.lazy(() => import(`@/${Empty}`)) : imports[key] = () => import(`@/${Empty}`)
-        return
+export function getRouteComponents(opts: { routes: Record<string, any>; prefix: string; api: any }) {
+  const imports: any = {};
+  Object.keys(opts.routes).map((key) => {
+    const useSuspense = true;
+    const route = opts.routes[key];
+    if (!route.file) {
+      const Empty = 'EmptyRoute';
+      // 测试环境还不支持 import ，所以用 require
+      if (process.env.NODE_ENV === 'test') {
+        imports[key] = require(`${Empty}`).default;
+        return;
       }
-      if (route.hasClientLoader) {
-        route.file = join(
-          opts.api.paths.absTmpPath,
-          'pages',
-          route.id.replace(/[\/\-]/g, '_') + '.js',
-        );
-      }
-      // e.g.
-      // component: () => <h1>foo</h1>
-      // component: (() => () => <h1>foo</h1>)()
-      if (route.file.startsWith('(')) {
-        imports[key] = React.lazy(
-          () => Promise.resolve(`@/${winPathURL}`).then((e: any) => e?.default ? e : ({ default: e }))
-        )
-        return
-      }
+      useSuspense ? (imports[key] = React.lazy(() => import(`@/${Empty}`))) : (imports[key] = () => import(`@/${Empty}`));
+      return;
+    }
+    if (route.hasClientLoader) {
+      route.file = join(opts.api.paths.absTmpPath, 'pages', route.id.replace(/[\/\-]/g, '_') + '.js');
+    }
+    // e.g.
+    // component: () => <h1>foo</h1>
+    // component: (() => () => <h1>foo</h1>)()
+    if (route.file.startsWith('(')) {
+      imports[key] = React.lazy(() => Promise.resolve(`@/${winPathURL}`).then((e: any) => (e?.default ? e : { default: e })));
+      return;
+    }
 
-      const path =
-        isAbsolute(route.file) || route.file.startsWith('@/') || route.file.startsWith('@src/')
-          ? route.file
-          : `${opts.prefix}${route.file}`;
+    const path = isAbsolute(route.file) || route.file.startsWith('@/') || route.file.startsWith('@src/') ? route.file : `${opts.prefix}${route.file}`;
 
-      const winPathURL = winPath(path)
-      imports[key] = React.lazy(() => import(`@/${winPathURL}`))
-    })
-  return imports
+    const winPathURL = winPath(path);
+    imports[key] = React.lazy(() => import(`@/${winPathURL}`));
+  });
+  return imports;
 }
 
 /**
@@ -267,10 +233,7 @@ export function getRouteComponents(opts: {
  * @param {React.ReactElement} routesElement 需要渲染的 routers，为了方便测试注入才导出
  * @returns @returns A function that returns a React component.
  */
-const getBrowser = (
-  opts: RenderClientOpts,
-  routesElement: React.ReactElement,
-) => {
+const getBrowser = (opts: RenderClientOpts, routesElement: React.ReactElement) => {
   const basename = opts.basename || '/';
   const clientRoutes = createClientRoutes({
     routesById: opts.routes,
@@ -280,17 +243,10 @@ const getBrowser = (
   });
 
   let rootContainer = (
-    <BrowserRoutes
-      basename={basename}
-      pluginManager={opts.pluginManager}
-      routes={opts.routes}
-      clientRoutes={clientRoutes}
-      history={opts.history}
-    >
+    <BrowserRoutes basename={basename} pluginManager={opts.pluginManager} routes={opts.routes} clientRoutes={clientRoutes} history={opts.history}>
       {routesElement}
     </BrowserRoutes>
   );
-
 
   /**
    * umi 增加完 Provide 的 react dom，可以直接交给 react-dom 渲染
@@ -320,9 +276,7 @@ const getBrowser = (
             const routeIdReplaced = id?.replace(/[\/\-]/g, '_');
             const preloadId = `preload-${routeIdReplaced}.js`;
             if (!document.getElementById(preloadId)) {
-              const keys = Object.keys(manifest).filter((k) =>
-                k.startsWith(routeIdReplaced + '.'),
-              );
+              const keys = Object.keys(manifest).filter((k) => k.startsWith(routeIdReplaced + '.'));
               keys.forEach((key) => {
                 if (!/\.(js|css)$/.test(key)) {
                   throw Error(`preload not support ${key} file`);
@@ -415,11 +369,32 @@ const getBrowser = (
  * @param {RenderClientOpts} opts - 插件相关的配置
  * @returns void
  */
-export function renderClient(opts: RenderClientOpts) {
+export function renderClient(opts: Omit<RenderClientOpts, 'routeComponents' | 'pluginManager'>) {
+  // 生成 getRoutes 的路由配置
+  const routes = getRoutes({
+    api: {
+      config: {
+        routes: opts.routes,
+      },
+    },
+  });
+
+  const rootComponents = getRouteComponents({
+    routes: routes,
+    prefix: '',
+    api: {},
+  });
+
+  opts['routes'] = routes;
 
   const rootElement = opts.rootElement || document.getElementById('root')!;
 
-  const Browser = getBrowser(opts, <Routes />);
+  const newOpts: RenderClientOpts = {
+    ...opts,
+    routeComponents: rootComponents,
+    pluginManager: [],
+  };
+  const Browser = getBrowser(newOpts, <Routes />);
 
   // 为了测试，直接返回组件
   if (opts.components) return Browser;
@@ -434,7 +409,6 @@ export function renderClient(opts: RenderClientOpts) {
     root.render(<Browser />);
     return;
   }
-
 
   // @ts-ignore
   ReactDOM.render(<Browser />, rootElement);
