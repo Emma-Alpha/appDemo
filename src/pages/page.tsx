@@ -10,4 +10,5 @@ const Index = () => {
   );
 };
 
-export default RequireAuth(Index, { autoRedirect: true });
+export default Index;
+// export default RequireAuth(Index, { autoRedirect: true });

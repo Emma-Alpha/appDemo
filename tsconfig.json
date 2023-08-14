@@ -1,18 +1,18 @@
 {
   "compilerOptions": {
-    "declaration": false,
-    "esModuleInterop": true,
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "noUnusedLocals": false,
-    "noImplicitAny": false,
-    "noUnusedParameters": true,
-    "sourceMap": true,
-    "strict": true,
-    "skipLibCheck": true,
-    "target": "es5",
-    "jsx": "react",
-    "lib": ["es5", "dom", "dom.iterable", "esnext"],
+    "declaration": false, // 生成声明文件
+    "esModuleInterop": true,  // 允许 export = 导出，由import from 导入
+    "module": "commonjs",  // 生成代码的模块标准
+    "moduleResolution": "node",  // 模块解析策略
+    "noUnusedLocals": false,  // 检查只声明，未使用的局部变量
+    "noImplicitAny": false,  // 不允许隐式的 any 类型。
+    "noUnusedParameters": true,  // 检查未使用的函数参数
+    "sourceMap": true,  // 编译器编译时，生成目标文件的sourceMap文件。
+    "strict": true,  // 开启所有严格的类型检查
+    "skipLibCheck": true,  // 用来控制是否在编译时进行库文件检查的
+    "target": "es5",  // 目标语言的版本
+    "jsx": "react",  // 控制如何在 JavaScript 文件中发出 JSX 构造。这只影响以.tsx files 开头的 JS 文件的输出
+    "lib": ["es5", "dom", "dom.iterable", "esnext"],  // TypeScript 包含内置 JS API 的一组默认类型定义（如Math），以及浏览器环境中找到的内容的类型定义（如document)
     "paths": {
       "@/*": [
         "./src/pages/*"
@@ -32,7 +32,7 @@
       "@utils/*": [
         "./utils/*"
       ],
-    },
+    },  // 将导入重新映射到相对于baseUrlif 集或 tsconfig 文件本身的查找位置
   },
   "exclude": [
     "**/node_modules",
@@ -43,6 +43,6 @@
     "**/*.e2e.ts",
     "**/templates",
     "ui"
-  ],
-  "include": ["./src/**/*", "./react-app-env.d.ts", "config/router"]
+  ],  // 指定解析时应跳过的文件名或模式数组include。
+  "include": ["./src/**/*", "./react-app-env.d.ts", "config/router"]  // 指定要包含在程序中的文件名或模式的数组。这些文件名是相对于包含该tsconfig.json文件的目录进行解析的。
 }

@@ -1,6 +1,6 @@
 // index.ts
 import axios from "axios";
-import type { AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from "axios";
+import type { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import { notification } from "antd";
 import jwt from "@config/jwt";
 
@@ -22,7 +22,7 @@ export class Request {
     this.instance = axios.create(Object.assign(this.baseConfig, config));
 
     this.instance.interceptors.request.use(
-      (config: InternalAxiosRequestConfig) => {
+      (config: AxiosRequestConfig) => {
         // 一般会请求拦截里面加token，用于后端的验证
         config.headers = config.headers || {};
         config.headers.Authorization = jwt.getAccessToken("ywkf_jwt") || "";

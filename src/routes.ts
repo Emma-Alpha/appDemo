@@ -1,4 +1,4 @@
-// 主应用路由
+// 应用路由
 export const routes = [
   {
     key: "auth",

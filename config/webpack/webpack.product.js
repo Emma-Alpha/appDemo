@@ -18,37 +18,13 @@ module.exports = merge(common, {
   module: {
     rules: [
       {
-        test: /\.less$/,
-        include: [/[\\/]node_modules[\\/].*antd/],
-        use: [
-          {
-            loader: MiniCssExtractPlugin.loader,
-          },
-          {
-            loader: "css-loader",
-            options: {
-              sourceMap: true,
-            }
-          },
-          {
-            loader: "less-loader",
-            options: {
-              sourceMap: true,
-              lessOptions: {
-                javascriptEnabled: true,
-              }
-            }
-          }
-        ]
-      },
-      {
         test: /\.css$/,
         include: [path.resolveApp("src/index.css")],
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
           },
-          "css-loader", 
+          "css-loader",
           "postcss-loader"
         ]
       },

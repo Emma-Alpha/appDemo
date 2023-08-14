@@ -11,7 +11,7 @@ const UpdateVersionWebpackPlugin = require("./plugins/updateVersion.js");
 module.exports = {
   output: {
     assetModuleFilename: "images/[hash][ext]", // 将png,jpg,jpeg,gif等资源文件存放到images下。
-    library: `${appInfoConfig.appsConfig.cname}-[name]`,
+    library: `${appInfoConfig.appConfig.cname}-[name]`,
     chunkFilename: '[name].[contenthash].js',
     // 需要配置成 umd 规范
     libraryTarget: 'umd',
@@ -35,11 +35,9 @@ module.exports = {
       "@config": path.resolveApp("./config"),
       "@store": path.resolveApp("./store"),
     },
+    // webpack 5 不再自动 polyfill Node.js 的核心模块，这意味着如果你在浏览器或类似的环境中运行的代码中使用它们，你必须从 NPM 中安装兼容的模块，并自己包含它们  https://webpack.docschina.org/configuration/resolve/#resolvefallback
     fallback: {
-      "fs": false,
       "path": require.resolve("path-browserify"),
-      "stream": false,
-
     },
   },
   module: {
@@ -60,14 +58,6 @@ module.exports = {
       {
         test: /\.svg$/,
         use: ['@svgr/webpack'],
-      },
-      {
-        test: /\.(tpl|ejs)$/,
-        exclude: /node_modules/,
-        loader: 'ejs-loader',
-        options: {
-          esModule: false,
-        }
       }
     ]
   },
@@ -78,8 +68,8 @@ module.exports = {
     // 清除dist目录
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: appInfoConfig.appsConfig.cname,
-      mountRoot: appInfoConfig.appsConfig.name,
+      title: appInfoConfig.appConfig.cname,
+      mountRoot: appInfoConfig.appConfig.name,
       template: path.resolveApp("./src/index.html"),
       filename: "index.html",
       inject: 'body', // 所有javascript 资源都是加载到body底部
