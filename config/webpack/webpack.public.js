@@ -26,10 +26,6 @@ module.exports = {
   resolve: {
     extensions: [".ts", ".tsx", ".jsx", ".js", ".json"], // 无需后缀即可完成导入
     alias: {
-      Utils: path.resolveApp("./src/utils"),
-      Dva: path.resolveApp("./src/dva"),
-      Components: path.resolveApp('./src/common/components'),
-      StoredComponents: path.resolveApp('./src/common/storedComponents'),
       "@": path.resolveApp("./src/pages"),
       "@src": path.resolveApp("./src"),
       "@config": path.resolveApp("./config"),
