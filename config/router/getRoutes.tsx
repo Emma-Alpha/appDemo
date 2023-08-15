@@ -1,3 +1,4 @@
+import { RenderClientOpts } from './types';
 import { getConfigRoutes } from './routesConfig';
 
 export function winPath(path: string) {
@@ -8,16 +9,10 @@ export function winPath(path: string) {
   return path.replace(/\\/g, '/');
 }
 
-export function getRoutes(opts: { api: any }) {
-  let routes: any = null;
+export function getRoutes(routes: RenderClientOpts['routes']) {
+  let IRoutesById: any = null;
 
-  // 只支持读取config.tsx的方式
-  routes = getConfigRoutes({
-    routes: opts.api.config.routes,
-    onResolveComponent(component) {
-      return component;
-    },
-  });
+  IRoutesById = getConfigRoutes({ routes });
 
-  return routes;
+  return IRoutesById;
 }

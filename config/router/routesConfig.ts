@@ -1,54 +1,40 @@
-import assert from 'assert';
+import { RenderClientOpts, IMemo, RouteItem } from "./types";
 
-interface IOpts {
-  routes: any[];
-  onResolveComponent?: (component: string) => string;
-}
 
-interface IMemo {
-  id: number;
-  ret: any;
-}
-
-export function getConfigRoutes(opts: IOpts): any[] {
+export function getConfigRoutes(opts: { routes: RenderClientOpts['routes'] }) {
   const memo: IMemo = { ret: {}, id: 1 };
   transformRoutes({
     routes: opts.routes,
     parentId: undefined,
     memo,
-    onResolveComponent: opts.onResolveComponent,
-  });
+  })
   return memo.ret;
 }
 
+
 function transformRoutes(opts: {
-  routes: any[];
+  routes: RenderClientOpts['routes'],
   parentId: undefined | string;
   memo: IMemo;
-  onResolveComponent?: Function;
 }) {
   opts.routes.forEach((route) => {
     transformRoute({
       route,
       parentId: opts.parentId,
-      memo: opts.memo,
-      onResolveComponent: opts.onResolveComponent,
-    });
-  });
+      memo: opts.memo
+    })
+  })
 }
 
 function transformRoute(opts: {
-  route: any;
+  route: RouteItem,
   parentId: undefined | string;
   memo: IMemo;
-  onResolveComponent?: Function;
 }) {
-  assert(
-    !opts.route.children,
-    'children is not allowed in route props, use routes instead.',
-  );
+  // 自增加一
   const id = String(opts.memo.id++);
   const { routes, component, wrappers, ...routeProps } = opts.route;
+
   let absPath = opts.route.path;
   if (absPath?.charAt(0) !== '/') {
     const parentAbsPath = opts.parentId
@@ -56,18 +42,14 @@ function transformRoute(opts: {
       : '/';
     absPath = endsWithStar(parentAbsPath)
       ? parentAbsPath
-      : ensureWithSlash(parentAbsPath, absPath);
+      : ensureWithSlash(parentAbsPath, absPath!);
   }
+
+  // 设置id 对应的内容
   opts.memo.ret[id] = {
     ...routeProps,
     path: opts.route.path,
-    ...(component
-      ? {
-          file: opts.onResolveComponent
-            ? opts.onResolveComponent(component)
-            : component,
-        }
-      : {}),
+    file: component,
     parentId: opts.parentId,
     id,
   };
@@ -79,6 +61,7 @@ function transformRoute(opts: {
     let parentId = opts.parentId;
     let path = opts.route.path;
     let layout = opts.route.layout;
+
     wrappers.forEach((wrapper: any) => {
       const { id } = transformRoute({
         route: {
@@ -89,23 +72,22 @@ function transformRoute(opts: {
         },
         parentId,
         memo: opts.memo,
-        onResolveComponent: opts.onResolveComponent,
       });
       parentId = id;
-      path = endsWithStar(path) ? '*' : '';
+      path = endsWithStar(path!) ? '*' : '';
     });
     opts.memo.ret[id].parentId = parentId;
     opts.memo.ret[id].path = path;
     // wrapper 处理后 真实 path 为空, 存储原 path 为 originPath 方便 layout 渲染
     opts.memo.ret[id].originPath = opts.route.path;
   }
-  if (opts.route.routes) {
+
+  if (routes) {
     transformRoutes({
-      routes: opts.route.routes,
+      routes: routes,
       parentId: id,
       memo: opts.memo,
-      onResolveComponent: opts.onResolveComponent,
-    });
+    })
   }
   return { id };
 }
