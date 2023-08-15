@@ -4,9 +4,11 @@ const {
 } = require("webpack-merge")
 const path = require("./paths.js")
 const fs = require('fs');
-const appInfo = require("../../package.json");
 const webpack = require("webpack");
 
+
+const HOST = process.env.APP_HOST
+const PORT = process.env.APP_PORT
 
 // 存储构建进度
 let progress = 0;
@@ -31,15 +33,15 @@ module.exports = merge(common, {
     filename: "[name].bundle.js",
     clean: false,
     path: path.resolveApp("dist"),
-    publicPath: `http://${appInfo.appConfig.host}:${appInfo.appConfig.port}/`,
+    publicPath: `http://${HOST}:${PORT}/`,
   },
   stats: 'errors-only', // 只在发生错误时输出
   devServer: {
     headers: {
       'Access-Control-Allow-Origin': '*',
     },
-    host: appInfo.appConfig.host,
-    port: appInfo.appConfig.port,
+    host: HOST,
+    port: PORT,
     compress: true, // 开启服务器gzip压缩
     // open: ["/"],
     historyApiFallback: true, // 提供页面来替代404响应

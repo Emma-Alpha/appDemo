@@ -6,10 +6,9 @@ import history from '@config/history';
 import Loading from './loading';
 import { ConfigProvider } from 'antd';
 import { openUpdateVersionNotify } from '@src/utils/updateVersion';
-const appInfoConfig = require('../package.json');
 import './index.css';
 
-const AppName = appInfoConfig.appConfig.name;
+const AppName = process.env.APP_NAME!;
 
 // 配置antd 静态方法使用的
 ConfigProvider.config({

@@ -1,17 +1,33 @@
 import { notification, message } from 'antd';
 import React from 'react';
-const appInfoConfig = require("../../package.json");
+
+const APP_NAME = process.env.APP_NAME
 interface IVersionRecord {
-  action: '' | 'refreshed',
+  action: '' | 'refreshedByClick',
   stack: string[]
 }
 // 对应的数组的key
-const RECORD_KEY = `${appInfoConfig.appConfig['name']}_version_record`
+const RECORD_KEY = `${APP_NAME!}_version_record`
 
 // 当前版本号
 let CUR_VERSION = ''
 // 页面是否有通知
 let CUR_STATE = false
+// 是否通过点击通知触发刷新
+let REFRESHED_BY_CLICK = false
+
+window.addEventListener('beforeunload', () => {
+  if (REFRESHED_BY_CLICK === false) {
+    const recordStr = localStorage.getItem(RECORD_KEY)
+    if (recordStr === null) return
+    const record: IVersionRecord = JSON.parse(recordStr)
+    if (record.action !== '') {
+      record.action = ''
+      localStorage.setItem(RECORD_KEY, JSON.stringify(record))
+    }
+  }
+})
+
 const Interval = {
   timer: 0,
   setInterval: function (callback: Function, interval: any) {
@@ -76,10 +92,11 @@ const ENV = process.env.NODE_ENV
 const notifyUserUpdate = () => {
 
   const handleClick = () => {
+    REFRESHED_BY_CLICK = true
     const recordStr = localStorage.getItem(RECORD_KEY)
     if (recordStr === null) return
     const record: IVersionRecord = JSON.parse(recordStr)
-    record.action = 'refreshed'
+    record.action = 'refreshedByClick'
     localStorage.setItem(RECORD_KEY, JSON.stringify(record))
     window.location.reload()
   }
@@ -147,8 +164,9 @@ const handleMain = (version: string, handleCb: Function, fetchDelay: number) => 
             // 发起通知
             handleCb()
           }
-          else if (versionRecord.action === 'refreshed' && lastVersion !== CUR_VERSION) {
+          else if (versionRecord.action === 'refreshedByClick' && lastVersion !== CUR_VERSION) {
             // 上一个标签页更新过，且当前标签页未更新
+            REFRESHED_BY_CLICK = true
             window.location.reload()
           }
         }
