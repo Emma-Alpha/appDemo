@@ -41,7 +41,7 @@ module.exports = merge(common, {
     host: appInfo.appConfig.host,
     port: appInfo.appConfig.port,
     compress: true, // 开启服务器gzip压缩
-    open: ["/"],
+    // open: ["/"],
     historyApiFallback: true, // 提供页面来替代404响应
     hot: true, // 构建失败的情况下启动热模块替代而不是刷新页面,
     allowedHosts: 'all',  // 允许访问开发服务器的服务列入白名单

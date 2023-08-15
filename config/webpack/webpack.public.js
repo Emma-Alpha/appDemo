@@ -7,6 +7,14 @@ const {
 const appInfoConfig = require("../../package.json");
 const webpack = require("webpack");
 const UpdateVersionWebpackPlugin = require("./plugins/updateVersion.js");
+const fs = require('fs');
+
+require('dotenv').config({ path: path.resolveApp("./config/env/.env.public") })
+const extraConfig = require('dotenv').parse(fs.readFileSync(path.resolveApp(`./config/env/.env.${process.env.NODE_ENV}`)))
+
+for (i in extraConfig) {
+  process.env[i] = extraConfig[i]
+}
 
 module.exports = {
   output: {
@@ -60,6 +68,9 @@ module.exports = {
   plugins: [
     new webpack.ProvidePlugin({
       process: 'process/browser'
+    }),
+    new webpack.DefinePlugin({
+      "process.env": JSON.stringify(process.env)
     }),
     // 清除dist目录
     new CleanWebpackPlugin(),

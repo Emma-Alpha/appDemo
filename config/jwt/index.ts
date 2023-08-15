@@ -1,6 +1,8 @@
-const Cookie  = require("js-cookie");
+const Cookie = require("js-cookie");
 
-const accessTokenKey = 'ywkf_jwt';
+const accessTokenKey = process.env.COOKIE_NAME
+
+// const accessTokenKey = 'ywkf_jwt';
 
 export default class jwt {
   static key = accessTokenKey
