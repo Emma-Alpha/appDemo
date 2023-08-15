@@ -4,7 +4,6 @@ const WebpackBar = require('webpackbar');
 const {
   CleanWebpackPlugin
 } = require('clean-webpack-plugin');
-const appInfoConfig = require("../../package.json");
 const webpack = require("webpack");
 const UpdateVersionWebpackPlugin = require("./plugins/updateVersion.js");
 const fs = require('fs');
@@ -16,10 +15,13 @@ for (i in extraConfig) {
   process.env[i] = extraConfig[i]
 }
 
+const APP_CNAME = process.env.APP_CNAME
+const APP_NAME = process.env.APP_NAME
+
 module.exports = {
   output: {
     assetModuleFilename: "images/[hash][ext]", // 将png,jpg,jpeg,gif等资源文件存放到images下。
-    library: `${appInfoConfig.appConfig.cname}-[name]`,
+    library: `${APP_CNAME}-[name]`,
     chunkFilename: '[name].[contenthash].js',
     // 需要配置成 umd 规范
     libraryTarget: 'umd',
@@ -75,8 +77,8 @@ module.exports = {
     // 清除dist目录
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: appInfoConfig.appConfig.cname,
-      mountRoot: appInfoConfig.appConfig.name,
+      title: APP_CNAME,
+      mountRoot: APP_NAME,
       template: path.resolveApp("./src/index.html"),
       filename: "index.html",
       inject: 'body', // 所有javascript 资源都是加载到body底部
