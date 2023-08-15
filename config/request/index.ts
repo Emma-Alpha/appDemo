@@ -10,12 +10,16 @@ type Result<T> = {
   data: T;
 };
 
+const baseURL = process.env.API_PREFIX
+const timeout = process.env.API_TIMEOUT
+
+
 // 导出Request类，可以用来自定义传递配置来创建实例
 export class Request {
   // axios 实例
   instance: AxiosInstance;
   // 基础配置，url和超时时间
-  baseConfig: AxiosRequestConfig = { baseURL: "/api", timeout: 60000 };
+  baseConfig: AxiosRequestConfig = { baseURL: baseURL, timeout: Number(timeout) };
 
   constructor(config: AxiosRequestConfig) {
     // 使用axios.create创建axios实例
@@ -25,9 +29,7 @@ export class Request {
       (config: AxiosRequestConfig) => {
         // 一般会请求拦截里面加token，用于后端的验证
         config.headers = config.headers || {};
-        config.headers.Authorization = jwt.getAccessToken("ywkf_jwt") || "";
-        config.headers.Authorization_Amc = jwt.getAccessToken("amc_jwt") || "";
-
+        config.headers.Authorization = jwt.getAccessToken(process.env.COOKIE_NAME!) || "";
         return config;
       },
       (err: any) => {

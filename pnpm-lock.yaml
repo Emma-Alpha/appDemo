@@ -124,6 +124,9 @@ devDependencies:
   css-minimizer-webpack-plugin:
     specifier: ^4.0.0
     version: 4.2.2(webpack@5.88.2)
+  dotenv:
+    specifier: ^16.3.1
+    version: 16.3.1
   ejs-loader:
     specifier: ^0.5.0
     version: 0.5.0
@@ -3944,6 +3947,11 @@ packages:
     dependencies:
       no-case: 3.0.4
       tslib: 2.6.1
+    dev: true
+
+  /dotenv@16.3.1:
+    resolution: {integrity: sha512-IPzF4w4/Rd94bA9imS68tZBaYyBWSCE47V1RGuMrB94iyTOIEwRmVL2x/4An+6mETpLrKJ5hQkB8W4kFAadeIQ==}
+    engines: {node: '>=12'}
     dev: true
 
   /duplexer2@0.1.4:

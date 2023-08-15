@@ -58,7 +58,7 @@ export interface RenderClientOpts {
   /**
    * loading 中展示的组件 dom （全局加载组件）。
    */
-  loadingComponent?: React.ReactNode
+  loadingComponent?: () => React.ReactNode
 }
 
 export interface IMemo {
