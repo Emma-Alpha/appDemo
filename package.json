@@ -7,13 +7,6 @@
   "browserslist": [
     "defaults"
   ],
-  "appConfig": {
-    "name": "demo",
-    "cname": "测试",
-    "host": "0.0.0.0",
-    "port": 8888,
-    "domain": "https://demo.gz4399.com"
-  },
   "dependencies": {
     "@4399ywkf/antd4_components": "^0.0.131",
     "@ant-design/icons": "^5.0.1",
