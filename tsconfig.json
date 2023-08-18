@@ -44,5 +44,5 @@
     "**/templates",
     "ui"
   ],  // 指定解析时应跳过的文件名或模式数组include。
-  "include": ["./src/**/*", "./react-app-env.d.ts", "config/router"]  // 指定要包含在程序中的文件名或模式的数组。这些文件名是相对于包含该tsconfig.json文件的目录进行解析的。
+  "include": ["./src/**/*", "./store/**/*", "./react-app-env.d.ts", "config/router"]  // 指定要包含在程序中的文件名或模式的数组。这些文件名是相对于包含该tsconfig.json文件的目录进行解析的。
 }
