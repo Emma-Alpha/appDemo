@@ -13,7 +13,6 @@ export const routes = [
   },
   {
     key: "/",
-    path: "/",
     component: "layout.tsx",
     routes: [
       {
