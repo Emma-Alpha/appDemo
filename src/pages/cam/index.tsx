@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import RequireAuth from '@src/components/RequireAuth/RequireAuth';
-import Loading from '@src/components/Loading/Loading';
 import styles from './index.less';
 import ManualSlavePage from '@src/components/ManualSlave/ManualSlavePage';
 import useGlobalStore from '@store/global';
