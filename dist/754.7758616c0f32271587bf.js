@@ -1,1 +1,0 @@
-"use strict";(window["garfish-demo"]=window["garfish-demo"]||[]).push([[754],{1754:function(d,n,t){t.r(n);var e=t(959),u=t(9069);const r=()=>e.createElement(e.Fragment,null,e.createElement(u.rU,{to:"/dts"},"\u6570\u4F20\u670D\u52A1"));n.default=r}}]);
