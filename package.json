@@ -7,6 +7,9 @@
   "browserslist": [
     "defaults"
   ],
+  "engines": {
+    "node": "18.14.0"
+  },
   "dependencies": {
     "@4399ywkf/antd4_components": "^0.0.131",
     "@ant-design/icons": "^5.0.1",
