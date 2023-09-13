@@ -4,7 +4,7 @@ import styles from './index.less';
 import ManualSlavePage from '@src/components/ManualSlave/ManualSlavePage';
 import useGlobalStore from '@store/global';
 
-const Index = (props: any) => {
+const Index = () => {
   const setLayout = useGlobalStore((state) => state.setLayout);
 
   useEffect(() => {
@@ -25,4 +25,4 @@ const Index = (props: any) => {
   );
 };
 
-export default RequireAuth(Index, { targetPerarr: '01' });
+export default RequireAuth(Index);
