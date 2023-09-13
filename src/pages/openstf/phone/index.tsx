@@ -1,18 +1,14 @@
-import React from "react";
-import RequireAuth from "@src/components/RequireAuth/RequireAuth";
-import Loading from "@src/components/Loading/Loading";
-import styles from "./index.less";
-import ManualSlavePage from "@src/components/ManualSlave/ManualSlavePage";
+import React from 'react';
+import RequireAuth from '@src/components/RequireAuth/RequireAuth';
+import styles from './index.less';
+import ManualSlavePage from '@src/components/ManualSlave/ManualSlavePage';
 
-
-const ErrorPage = (props:any) => {
-
+const ErrorPage = () => {
   return (
-    <div className={styles["micro__app"]}>
+    <div className={styles['micro__app']}>
       <ManualSlavePage />
     </div>
-  )
-}
+  );
+};
 
-
-export default RequireAuth(ErrorPage, {targetPerarr: "07"});
+export default RequireAuth(ErrorPage);
