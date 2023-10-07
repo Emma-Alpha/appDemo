@@ -1,9 +1,9 @@
-import { Request } from "../../config/request/index";
+import { Request } from '@config/request';
 
-const request = new Request({})
+const request = new Request({});
 
 export function apiGetCopyright(params: any) {
-  return request.get("/main/gateway/copyright", params);
+  return request.get('/main/gateway/copyright', params);
 }
 
 export function apiGetCurrentUser(params: any) {

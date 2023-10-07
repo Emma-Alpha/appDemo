@@ -1,18 +1,21 @@
+import { RoutesTree } from '@store/types';
+
 // 应用路由
-export const routes = [
+export const routes: RoutesTree[] = [
   {
-    key: "auth",
     path: "/auth",
     component: "auth/layout.tsx",
     routes: [
       {
         path: "/auth",
-        component: "auth/page.tsx"
+        component: "auth/page.tsx",
+        props: {
+          perarr: "01"
+        }
       },
     ]
   },
   {
-    key: "/",
     component: "layout.tsx",
     routes: [
       {

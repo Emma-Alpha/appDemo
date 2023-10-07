@@ -3,7 +3,7 @@ import { getRoutes, winPath } from './getRoutes';
 import { RenderClientOpts, IRoutesById, IRouteComponents } from './types';
 import ReactDOM from 'react-dom/client';
 import { AppContext, useAppData } from './appContext';
-import { isAbsolute, join } from 'path';
+import { isAbsolute } from 'path';
 import { useRoutes, Router } from 'react-router-dom';
 import { createClientRoutes } from './routes';
 import { History } from 'history';
@@ -40,13 +40,9 @@ function BrowserRoutes(props: { routes: any; clientRoutes: any; history: History
   });
   useLayoutEffect(() => history.listen(setState), [history]);
   useLayoutEffect(() => {
-    const onRouteChange = (opts?: any) => {};
+    const onRouteChange = () => {};
     history.listen(onRouteChange);
-    onRouteChange({
-      location: state.location,
-      action: state.action,
-      isFirst: true,
-    });
+    onRouteChange();
   }, [history, props.routes, props.clientRoutes]);
 
   return (
@@ -147,6 +143,8 @@ export function renderClient(opts: RenderClientOpts) {
       routes,
       routeComponents: routeComponents,
       history: opts.history,
+      rootElement: opts.rootElement,
+      basename: opts.basename,
     },
     <Routes />,
   );

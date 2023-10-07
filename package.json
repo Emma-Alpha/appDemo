@@ -7,6 +7,9 @@
   "browserslist": [
     "defaults"
   ],
+  "engines": {
+    "node": "18.14.0"
+  },
   "dependencies": {
     "@4399ywkf/antd4_components": "^0.0.131",
     "@ant-design/icons": "^5.0.1",
@@ -38,6 +41,7 @@
     "@svgr/webpack": "^7.0.0",
     "@types/lodash-es": "^4.17.8",
     "@types/node": "^20.4.5",
+    "@types/react": "^18.2.21",
     "@types/react-dom": "^18.2.7",
     "@types/react-resizable": "^3.0.4",
     "@types/styled-components": "^5.1.26",
