@@ -143,6 +143,8 @@ export function renderClient(opts: RenderClientOpts) {
       routes,
       routeComponents: routeComponents,
       history: opts.history,
+      rootElement: opts.rootElement,
+      basename: opts.basename,
     },
     <Routes />,
   );
